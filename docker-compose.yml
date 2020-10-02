@@ -1,0 +1,21 @@
+version: '3' # docker-compose version
+services: # services basically means containers
+  web: # name of container
+    build: # build
+      context: '.' # build context
+      dockerfile: 'Dockerfile.dev' # dockerfile to build from
+    ports: # port mapping
+      - '3000:3000'
+    volumes: # volumes to ignore / reference
+      - '/app/node_modules'
+      - '.:/app'
+    stdin_open: true # needed to avoid exit code 0 on react app start up
+  web-test: # testing container
+    build:
+      context: '.'
+      dockerfile: 'Dockerfile.dev'
+    volumes:
+      - '/app/node_modules'
+      - '.:/app'
+    command: ['npm', 'run', 'test']
+    stdin_open: true
